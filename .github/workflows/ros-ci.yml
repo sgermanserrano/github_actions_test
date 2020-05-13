@@ -19,9 +19,11 @@ jobs:
       with:
         required-ros-distributions: dashing eloquent
 
+    - name: Remove demo packages
+      run: apt-get autoremove ros-$ROS_DISTRO-demo-nodes-cpp
+
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.16
-      run: apt-get autoremove ros-$ROS_DISTRO-demo-nodes-cpp
       with:
         package-name: demo_nodes_cpp demo_nodes_cpp_native demo_nodes_py
 
