@@ -1,3 +1,3 @@
 Test actions badges
 
-https://github.com/sgermanserrano/github_actions_test/workflows/Greet Everyone/badge.svg
+![Greet Everyone](https://github.com/sgermanserrano/github_actions_test/workflows/Greet%20Everyone/badge.svg)
