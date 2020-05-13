@@ -17,12 +17,12 @@ jobs:
     - name: Setup ROS 2
       uses: ros-tooling/setup-ros@0.0.18
       with:
-        required-ros-distributions: dashing, eloquent
+        required-ros-distributions: dashing eloquent
 
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.16
       with:
-        package-name: demo_nodes_cpp, demo_nodes_cpp_native, demo_nodes_py
+        package-name: demo_nodes_cpp demo_nodes_cpp_native demo_nodes_py
 
     - name: Upload Logs
       uses: actions/upload-artifact@v1
