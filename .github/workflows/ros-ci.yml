@@ -17,10 +17,10 @@ jobs:
     - name: Setup ROS 2
       uses: ros-tooling/setup-ros@0.0.18
       with:
-        required-ros-distributions: dashing eloquent
+        required-ros-distributions: dashing
 
     - name: Remove demo packages
-      run: apt-get autoremove ros-$ROS_DISTRO-demo-nodes-cpp
+      run: sudo apt-get autoremove ros-$ROS_DISTRO-demo-nodes-cpp
 
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.16
