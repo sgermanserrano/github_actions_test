@@ -45,7 +45,7 @@ jobs:
         sudo apt-get update
         rosdep update && rosdep install -y --from-paths src --ignore-src --rosdistro dashing
         ls /opt/ros
-        "source /opt/ros/dashing/setup.bash && colcon build"
+        source /opt/ros/dashing/setup.bash && colcon build
 
     #- name: Upload Logs
     #  uses: actions/upload-artifact@v1
