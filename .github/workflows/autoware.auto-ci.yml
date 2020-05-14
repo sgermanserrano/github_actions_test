@@ -19,9 +19,7 @@ jobs:
       with:
         required-ros-distributions: dashing melodic
 
-    - name: Run Tests
-      run: ls
-      run: pwd
+    - run: pwd
 
     #- name: Upload Logs
     #  uses: actions/upload-artifact@v1
