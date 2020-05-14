@@ -1,4 +1,4 @@
-name: Autoware Auto build
+name: Autoware AI build
 
 on:
   pull_request:
