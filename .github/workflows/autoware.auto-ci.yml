@@ -18,10 +18,8 @@ jobs:
     #  uses: ros-tooling/setup-ros@0.0.18
     #  with:
     #    required-ros-distributions: dashing melodic
-    - run: pwd && mkdir test && cd test && pwd
     - run: |
-        pwd
-        ls
+        sudo apt-get install -y libpcap-dev
         git clone https://github.com/rigtorp/udpreplay.git
         cd udpreplay
         mkdir build
