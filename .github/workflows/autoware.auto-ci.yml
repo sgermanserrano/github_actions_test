@@ -25,7 +25,7 @@ jobs:
         mkdir build
         cd build
         cmake ..
-        make install
+        sudo make install
         cd ../.. && rm -r udpreplay
 
       #"source /opt/ros/dashing/setup.bash && ros2 run --help"
