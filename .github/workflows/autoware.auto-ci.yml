@@ -19,8 +19,8 @@ jobs:
       with:
         required-ros-distributions: dashing melodic
 
-    - run: pwd
-    - run: git clone https://github.com/rigtorp/udpreplay.git && \
+    - run: pwd && ls && ls ./.. && ls ./../..
+    - run: git clone https://github.com/rigtorp/udpreplay.git && ls && \
         cd udpreplay && \
         mkdir build && cd build && \
         cmake .. && \
