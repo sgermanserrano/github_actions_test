@@ -20,10 +20,10 @@ jobs:
     #    required-ros-distributions: dashing melodic
 
     - run: pwd && mkdir test && cd test && pwd
-    - run: git clone https://github.com/rigtorp/udpreplay.git && cd udpreplay && \
-        mkdir build && cd build && \
-        cmake .. && \
-        make install && \
+    - run: git clone https://github.com/rigtorp/udpreplay.git && cd udpreplay && |
+        mkdir build && cd build && |
+        cmake .. && |
+        make install && |
         cd ../.. && rm -r udpreplay
 
       #"source /opt/ros/dashing/setup.bash && ros2 run --help"
