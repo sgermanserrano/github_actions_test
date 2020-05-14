@@ -15,48 +15,41 @@ jobs:
       fail-fast: false
     steps:
 
-    #- name: Setup ROS 2
-    #  uses: ros-tooling/setup-ros@0.0.18
-    #  with:
-    #    required-ros-distributions: eloquent
     - uses: actions/checkout@v2
+
+    - name: Setup ROS 2
+      uses: ros-tooling/setup-ros@0.0.18
+      with:
+        required-ros-distributions: eloquent
 
     - name: Move code
       run: |
         mkdir src_tmp
-        find -maxdepth 1 -not -name .
         mv `find -maxdepth 1 -not -name . -not -name src_tmp` src_tmp
-        ls
-        ls src_tmp
         mv src_tmp/ src/
-        ls src
-        pwd
 
-    #- name: Build and Run Tests
-    #  run: |
-    #    source /opt/ros/eloquent/setup.bash
-    #    ls
-    #    pwd
-    #    ls src
-    #    colcon build --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
-    #    colcon build --cmake-target tests --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
-    #    lcov --initial --directory build --capture --output-file lcov.base
-    #    colcon test
-    #    colcon test-result --verbose
-    #    lcov --directory build --capture --output-file lcov.test
-    #    lcov -a lcov.base -a lcov.test -o lcov.total
-    #    lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
-    #    genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_folder
-    #    tar -czvf coverage.tar.gz coverage_mcoverage_folderaster
+    - name: Build and Run Tests
+      run: |
+        source /opt/ros/eloquent/setup.bash
+        colcon build --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
+        colcon build --cmake-target tests --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
+        lcov --initial --directory build --capture --output-file lcov.base
+        colcon test
+        colcon test-result --verbose
+        lcov --directory build --capture --output-file lcov.test
+        lcov -a lcov.base -a lcov.test -o lcov.total
+        lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
+        genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_folder
+        tar -czvf coverage.tar.gz coverage_mcoverage_folderaster
 
 
       #uses: ros-tooling/action-ros-ci@0.0.16
       #with:
     #    package-name: demo_nodes_cpp2
 
-    #- name: Upload Logs
-    #  uses: actions/upload-artifact@v1
-    #  with:
-    #    name: coverage-tar-file
-    #    path: ./coverage.tar.gz
-    #  if: always()
+    - name: Upload Logs
+      uses: actions/upload-artifact@v1
+      with:
+        name: coverage-tar-file
+        path: ./coverage.tar.gz
+      if: always()
