@@ -20,6 +20,14 @@ jobs:
         required-ros-distributions: dashing melodic
 
     - run: pwd
+    - run: git clone https://github.com/rigtorp/udpreplay.git && \
+        cd udpreplay && \
+        mkdir build && cd build && \
+        cmake .. && \
+        make install && \
+        cd ../.. && rm -r udpreplay
+
+      #"source /opt/ros/dashing/setup.bash && ros2 run --help"
 
     #- name: Upload Logs
     #  uses: actions/upload-artifact@v1
