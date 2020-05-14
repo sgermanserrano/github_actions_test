@@ -52,6 +52,5 @@ jobs:
     - name: Upload Logs
       uses: actions/upload-artifact@v1
       with:
-        name: coverage-tar-file
         path: ./coverage.tar.gz
       if: always()
