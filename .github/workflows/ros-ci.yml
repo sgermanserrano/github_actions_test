@@ -17,10 +17,10 @@ jobs:
 
     - uses: actions/checkout@v2
 
-    - name: Setup ROS 2
+    - name: Setup ROS
       uses: ros-tooling/setup-ros@0.0.18
       with:
-        required-ros-distributions: eloquent
+        required-ros-distributions: melodic
 
     - name: Move code
       run: |
@@ -30,7 +30,7 @@ jobs:
 
     - name: Build and Run Tests
       run: |
-        source /opt/ros/eloquent/setup.bash
+        source /opt/ros/melodic/setup.bash
         rosdep update
         rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
         colcon build --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
@@ -42,7 +42,7 @@ jobs:
         lcov -a lcov.base -a lcov.test -o lcov.total
         lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
         genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_folder
-        tar -czvf coverage.tar.gz coverage_mcoverage_folderaster
+        tar -czvf coverage.tar.gz coverage_folder
 
 
       #uses: ros-tooling/action-ros-ci@0.0.16
