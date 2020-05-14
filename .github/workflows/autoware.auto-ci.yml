@@ -14,14 +14,13 @@ jobs:
         os: [ubuntu-latest]
       fail-fast: false
     steps:
-    - name: Setup ROS 2
-      uses: ros-tooling/setup-ros@0.0.18
-      with:
-        required-ros-distributions: dashing melodic
+    #- name: Setup ROS 2
+    #  uses: ros-tooling/setup-ros@0.0.18
+    #  with:
+    #    required-ros-distributions: dashing melodic
 
-    - run: pwd && mkdir test && cd test
-    - run: git clone https://github.com/rigtorp/udpreplay.git && ls && \
-        cd udpreplay && \
+    - run: pwd && mkdir test && cd test && pwd
+    - run: git clone https://github.com/rigtorp/udpreplay.git && cd udpreplay && \
         mkdir build && cd build && \
         cmake .. && \
         make install && \
