@@ -1,0 +1,48 @@
+name: ROS2 test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+      fail-fast: false
+    steps:
+    - name: Setup ROS 2
+      uses: ros-tooling/setup-ros@0.0.18
+      with:
+        required-ros-distributions: eloquent
+
+    - name: Build and Run Tests
+      run: |
+        source /opt/ros/eloquent/setup.bash
+        ls
+        pwd
+        colcon build --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
+        colcon build --cmake-target tests --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
+        lcov --initial --directory build --capture --output-file lcov.base
+        colcon test
+        colcon test-result --verbose
+        lcov --directory build --capture --output-file lcov.test
+        lcov -a lcov.base -a lcov.test -o lcov.total
+        lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
+        genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_master
+        tar -czvf coverage.tar.gz coverage_master
+
+
+      #uses: ros-tooling/action-ros-ci@0.0.16
+      #with:
+    #    package-name: demo_nodes_cpp2
+
+    - name: Upload Logs
+      uses: actions/upload-artifact@v1
+      with:
+        name: colcon-logs
+        path: ros_ws/log
+      if: always()
