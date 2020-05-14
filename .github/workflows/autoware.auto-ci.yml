@@ -20,6 +20,8 @@ jobs:
     #    required-ros-distributions: dashing melodic
     - run: pwd && mkdir test && cd test && pwd
     - run: |
+        pwd
+        ls
         git clone https://github.com/rigtorp/udpreplay.git
         cd udpreplay
         mkdir build
