@@ -39,7 +39,8 @@ jobs:
         cd AutowareAuto
         sudo apt-get update
         rosdep update && rosdep install -y --from-paths src --ignore-src --rosdistro dashing
-        "source /opt/ros/dashing/local_setup.bash && colcon build"
+        ls /opt
+        "source /opt/ros/dashing/setup.bash && colcon build"
 
     #- name: Upload Logs
     #  uses: actions/upload-artifact@v1
