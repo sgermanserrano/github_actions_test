@@ -24,10 +24,15 @@ jobs:
         mkdir src_tmp
         mv `find -maxdepth 1 -not -name . -not -name src_tmp` src_tmp
         mv src_tmp/ src/
+        ls
+        pwd
 
     - name: Build and Run Tests
       run: |
         source /opt/ros/eloquent/setup.bash
+        ls
+        pwd
+        ls src
         colcon build --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
         colcon build --cmake-target tests --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
         lcov --initial --directory build --capture --output-file lcov.base
