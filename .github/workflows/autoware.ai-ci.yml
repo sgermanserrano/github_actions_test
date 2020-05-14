@@ -19,6 +19,9 @@ jobs:
       with:
         required-ros-distributions: melodic
 
+    - name: Install lcov
+      run: sudo apt-get install -y lcov
+
     - name: Build AutowareAI
       run: |
         source /opt/ros/melodic/setup.bash
