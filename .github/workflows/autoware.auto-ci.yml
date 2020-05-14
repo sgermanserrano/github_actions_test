@@ -21,10 +21,11 @@ jobs:
 
     - name: Run Tests
       run: ls
-      
-    - name: Upload Logs
-      uses: actions/upload-artifact@v1
-      with:
-        name: colcon-logs
-        path: ros_ws/log
-      if: always()
+      run: pwd
+
+    #- name: Upload Logs
+    #  uses: actions/upload-artifact@v1
+    #  with:
+    #    name: colcon-logs
+    #    path: ros_ws/log
+    #  if: always()
