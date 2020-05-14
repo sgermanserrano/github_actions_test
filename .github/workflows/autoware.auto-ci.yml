@@ -14,11 +14,13 @@ jobs:
         os: [ubuntu-latest]
       fail-fast: false
     steps:
-    #- name: Setup ROS 2
-    #  uses: ros-tooling/setup-ros@0.0.18
-    #  with:
-    #    required-ros-distributions: dashing melodic
-    - run: |
+    - name: Setup ROS 2
+      uses: ros-tooling/setup-ros@0.0.18
+      with:
+        required-ros-distributions: dashing melodic
+
+    - name: Install udpreplay
+      run: |
         sudo apt-get install -y libpcap-dev
         git clone https://github.com/rigtorp/udpreplay.git
         cd udpreplay
@@ -28,7 +30,16 @@ jobs:
         sudo make install
         cd ../.. && rm -r udpreplay
 
-      #"source /opt/ros/dashing/setup.bash && ros2 run --help"
+    - name: Install CycloneDDS
+      run: sudo apt-get install -y ros-dashing-rmw-cyclonedds-cpp
+
+    - name: Build AutowareAuto
+      run: |
+        git clone --recursive https://gitlab.com/autowarefoundation/autoware.auto/AutowareAuto.git
+        cd AutowareAuto
+        sudo apt-get update
+        rosdep update && rosdep install -y --from-paths src --ignore-src --rosdistro dashing
+        "source /opt/ros/dashing/local_setup.bash && colcon build"
 
     #- name: Upload Logs
     #  uses: actions/upload-artifact@v1
