@@ -20,11 +20,8 @@ jobs:
         required-ros-distributions: dashing melodic
 
     - name: Run Tests
-      uses: ros-tooling/action-ros-ci@0.0.16
-      with:
-        package-name: autoware_auto_common
-        vcs-repo-file-url: autoware.auto.repos
-
+      run: ls
+      
     - name: Upload Logs
       uses: actions/upload-artifact@v1
       with:
