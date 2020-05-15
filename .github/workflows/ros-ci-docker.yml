@@ -9,12 +9,6 @@ on:
       - v*
 
 jobs:
-  check-name:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ github.event_name }}
-      - run: echo ${{ github.ref }}
-      - run: echo $GITHUB_EVENT_NAME
 
   build-and-test:
     if: echo ${{ github.ref }} == *'heads'*
@@ -70,7 +64,7 @@ jobs:
 
   docker-build:
 
-    if: github.event_name == 'push.tags'
+    if: echo ${{ github.ref }} == *'tags'*
 
     runs-on: ubuntu-latest
 
