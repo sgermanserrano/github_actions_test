@@ -1,4 +1,4 @@
-name: ROS2 test
+name: Test workflows
 
 on:
   pull_request:
@@ -25,7 +25,7 @@ jobs:
     - name: Move code
       run: |
         mkdir src_tmp
-        mv `find -maxdepth 1 -not -name . -not -name src_tmp` src_tmp
+        mv `find -maxdepth 1 -not -name . -not -name src_tmp -not -name dockerfiles` src_tmp
         mv src_tmp/ src/
 
     - name: Build and Run Tests
