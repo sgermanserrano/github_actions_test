@@ -43,17 +43,6 @@ jobs:
         lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
         genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_folder
 
-    - name: Push to dockerhub
-      uses: docker/build-push-action@v1
-      with:
-        repository: sgerman/test_image
-        username: ${{ secrets.DKR_USR }}
-        password: ${{ secrets.DKR_PASS }}
-        tags: ub_linaro
-        tag_with_ref: true
-        push: ${{ startsWith(github.ref, 'refs/tags/') }}
-        dockerfile: ./dockerfiles/Dockerfile.Ub_linaro
-
       #tar -czvf coverage.tar.gz coverage_folder
 
 
@@ -67,3 +56,20 @@ jobs:
         name: coverage-tar-file
         path: ./coverage_folder
       if: always()
+
+
+  docker-build:
+    if: github.event_name == "push.tags"
+
+    steps:
+
+      - name: Push to dockerhub
+        uses: docker/build-push-action@v1
+        with:
+          repository: sgerman/test_image
+          username: ${{ secrets.DKR_USR }}
+          password: ${{ secrets.DKR_PASS }}
+          tags: ub_linaro
+          tag_with_ref: true
+          push: ${{ startsWith(github.ref, 'refs/tags/') }}
+          dockerfile: ./dockerfiles/Dockerfile.Ub_linaro
