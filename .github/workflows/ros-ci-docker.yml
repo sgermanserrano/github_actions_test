@@ -42,7 +42,19 @@ jobs:
         lcov -a lcov.base -a lcov.test -o lcov.total
         lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
         genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_folder
-        tar -czvf coverage.tar.gz coverage_folder
+
+    - name: Push to dockerhub
+      uses: docker/build-push-action@v1
+      with:
+        repository: sgerman/test_image
+        username: ${{ secrets.DKR_USR }}
+        password: ${{ secrets.DKR_PASS }}
+        tags: ub_linaro
+        tag_with_ref: true
+        push: ${{ startsWith(github.ref, 'refs/tags/') }}
+        dockerfile: ./dockerfiles/Dockerfile.Ub_linaro
+
+      #tar -czvf coverage.tar.gz coverage_folder
 
 
       #uses: ros-tooling/action-ros-ci@0.0.16
@@ -53,5 +65,5 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: coverage-tar-file
-        path: ./coverage.tar.gz
+        path: ./coverage_folder
       if: always()

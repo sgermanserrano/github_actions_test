@@ -1,0 +1,68 @@
+FROM ubuntu:bionic
+
+RUN apt-get update && apt-get upgrade -y && \
+    rm -rf /var/lib/apt/lists/*
+
+# Startup scripts
+ENV LANG="en_US.UTF-8"
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  cmake \
+  git \
+  python3-pip \
+  python-rosdep \
+  wget \
+  libasio-dev \
+  libtinyxml2-dev \
+  sudo &&\
+  rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install -U \
+  argcomplete \
+  flake8 \
+  flake8-blind-except \
+  flake8-builtins \
+  flake8-class-newline \
+  flake8-comprehensions \
+  flake8-deprecated \
+  flake8-docstrings \
+  flake8-import-order \
+  flake8-quotes \
+  pytest-repeat \
+  pytest-rerunfailures \
+  pytest \
+  pytest-cov \
+  pytest-runner \
+  setuptools
+
+RUN apt-get update && sudo apt-get install -y \
+  maven \
+  openjdk-11-jdk &&\
+  rm -rf /var/lib/apt/lists/*
+
+#
+# Configure environmet
+#
+
+
+# Add user
+ENV USERNAME linaro
+ENV USER $USERNAME
+ARG USER_ID=1004
+ARG GROUP_ID=15214
+ENV PULSE_SERVER /run/pulse/native
+
+RUN groupadd --gid $GROUP_ID $USERNAME && \
+        useradd --gid $GROUP_ID -m $USERNAME && \
+        echo "$USERNAME:$USERNAME" | chpasswd && \
+        usermod --shell /bin/bash $USERNAME && \
+        usermod -aG sudo $USERNAME && \
+        usermod  --uid $USER_ID $USERNAME && \
+        echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME && \
+        chmod 0440 /etc/sudoers.d/$USERNAME
+
+WORKDIR /home/$USER
+
+CMD ["/bin/bash"]
