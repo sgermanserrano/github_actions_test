@@ -12,7 +12,7 @@ jobs:
   check-name:
     runs-on: ubuntu-latest
     steps:
-      run: echo ${{ github.event_name }}
+      - run: echo ${{ github.event_name }}
 
   build-and-test:
     if: github.event_name == 'push.tags'
