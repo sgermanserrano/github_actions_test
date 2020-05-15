@@ -15,7 +15,6 @@ jobs:
       - run: echo ${{ github.event_name }}
       - run: echo ${{ github.ref }}
       - run: echo $GITHUB_EVENT_NAME
-      - run: echo ${{ GITHUB_EVENT_NAME }}
 
   build-and-test:
     if: github.event_name == 'push.tags'
