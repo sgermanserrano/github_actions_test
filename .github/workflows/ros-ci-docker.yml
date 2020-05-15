@@ -9,9 +9,16 @@ on:
       - v*
 
 jobs:
+  check-name:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ github.event_name }}
+      - run: echo ${{ github.ref }}
+      - run: echo ${{ github.ref }} == *'heads'*
+      - run: echo ${{ github.ref }} == *'tags'*
 
   build-and-test:
-    if: echo ${{ github.ref }} == *'heads'*
+    if: ${{ github.ref }} == *'heads'*
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -64,7 +71,7 @@ jobs:
 
   docker-build:
 
-    if: echo ${{ github.ref }} == *'tags'*
+    if: ${{ github.ref }} == *'tags'*
 
     runs-on: ubuntu-latest
 
