@@ -18,7 +18,7 @@ jobs:
       - run: echo ${{ github.ref }} == *'tags'*
 
   build-and-test:
-    if: ${{ github.ref }} == *'heads'*
+    if: github.ref == *'heads'*
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -71,7 +71,7 @@ jobs:
 
   docker-build:
 
-    if: ${{ github.ref }} == *'tags'*
+    if: github.ref == *'tags'*
 
     runs-on: ubuntu-latest
 
