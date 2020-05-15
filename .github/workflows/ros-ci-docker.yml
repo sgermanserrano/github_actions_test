@@ -17,7 +17,7 @@ jobs:
       - run: echo $GITHUB_EVENT_NAME
 
   build-and-test:
-    if: github.event_name == 'push.tags'
+    if: echo ${{ github.ref }} == *'heads'*
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
