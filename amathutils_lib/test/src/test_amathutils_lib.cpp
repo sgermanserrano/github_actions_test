@@ -13,7 +13,7 @@ public:
 
 TEST(TestSuite, Rad2Deg){
 	double radAngle = 1;
-	ASSERT_EQ(amathutils::rad2deg(radAngle), radAngle*180/M_PI) << "Angle in degrees should be " << radAngle*180/M_PI;
+	ASSERT_EQ(amathutils::rad2deg(radAngle), radAngle*270/M_PI) << "Angle in degrees should be " << radAngle*180/M_PI;
 }
 
 TEST(TestSuite, Deg2Rad){
