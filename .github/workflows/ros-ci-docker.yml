@@ -51,6 +51,7 @@ jobs:
     - name: Install ROS dependencies
       if: steps.cache-ros.outputs.cache-hit != 'true'
       run: |
+        source /opt/ros/melodic/setup.bash
         rosdep update
         rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
