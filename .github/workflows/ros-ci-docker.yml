@@ -18,7 +18,7 @@ jobs:
       - run: echo ${{ github.ref }} == *'tags'*
 
   build-and-test:
-    if: contains(github.ref, 'heads') | contains(github.ref, 'pull')
+    if: contains(github.ref, 'heads') or contains(github.ref, 'pull')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
