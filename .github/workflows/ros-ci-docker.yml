@@ -18,7 +18,7 @@ jobs:
       - run: echo ${{ github.ref }} == *'tags'*
 
   build-and-test:
-    if: contains(github.ref, 'heads')
+    if: contains(github.ref, 'heads') || contains(github.ref, 'pull')
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,7 +33,7 @@ jobs:
       with:
         required-ros-distributions: melodic
 
-    - name: Move code
+    - name: Source ROS and Move code
       run: |
         mkdir src_tmp
         mv `find -maxdepth 1 -not -name . -not -name src_tmp -not -name dockerfiles` src_tmp
@@ -78,7 +78,7 @@ jobs:
     steps:
 
       - uses: actions/checkout@v2
-      
+
       - name: Push to dockerhub
         uses: docker/build-push-action@v1
         with:
