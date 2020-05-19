@@ -18,7 +18,7 @@ jobs:
 
     - name: Build AutowareAI image
       env:
-        IMAGE_NAME: sgerman/test_image
+        IMAGE_NAME: "sgerman/test_image"
         ROS_DISTRO: melodic
         TAG_PREFIX: build_test
         VERSION: 1.13.0
