@@ -20,12 +20,12 @@ jobs:
         required-ros-distributions: melodic
 
     - name: Build AutowareAI
-        run: |
-          source /opt/ros/melodic/setup.bash
-          mkdir -p autoware.ai/src
-          cd autoware.ai
-          wget -O autoware.ai.repos "https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/master/autoware.ai.repos?inline=false"
-          vcs import src < autoware.ai.repos
-          rosdep update
-          rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-          colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+      run: |
+        source /opt/ros/melodic/setup.bash
+        mkdir -p autoware.ai/src
+        cd autoware.ai
+        wget -O autoware.ai.repos "https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/master/autoware.ai.repos?inline=false"
+        vcs import src < autoware.ai.repos
+        rosdep update
+        rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+        colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
