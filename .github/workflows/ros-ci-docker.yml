@@ -28,28 +28,18 @@ jobs:
 
     - uses: actions/checkout@v2
 
-    - name: Cache ROS install
-      id: cache-ros
-      uses: actions/cache@v1
-      with:
-        path: /opt/ros/
-        key: ${{ runner.os }}-ros
-
     - name: Setup ROS
-      if: steps.cache-ros.outputs.cache-hit != 'true'
       uses: ros-tooling/setup-ros@0.0.18
       with:
         required-ros-distributions: melodic
 
     - name: Source ROS and Move code
       run: |
-        source /opt/ros/melodic/setup.bash
         mkdir src_tmp
         mv `find -maxdepth 1 -not -name . -not -name src_tmp -not -name dockerfiles` src_tmp
         mv src_tmp/ src/
 
     - name: Install ROS dependencies
-      if: steps.cache-ros.outputs.cache-hit != 'true'
       run: |
         source /opt/ros/melodic/setup.bash
         rosdep update
@@ -58,7 +48,6 @@ jobs:
 
     - name: Build and Run Tests
       run: |
-        source /opt/ros/melodic/setup.bash
         colcon build --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
         colcon build --cmake-target tests --cmake-args -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage" -DCMAKE_BUILD_TYPE=Debug
         lcov --initial --directory build --capture --output-file lcov.base
