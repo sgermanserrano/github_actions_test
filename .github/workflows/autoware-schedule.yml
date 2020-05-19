@@ -21,7 +21,7 @@ jobs:
         IMAGE_NAME: sgerman/test_image
         ROS_DISTRO: melodic
         TAG_PREFIX: build_test
-        VERSION: master
+        VERSION: 1.13.0
       run: |
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
         cd generic
