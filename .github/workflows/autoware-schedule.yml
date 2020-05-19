@@ -4,8 +4,8 @@ on:
   push:
     branches: master
 
-  #schedule:
-  #  cron: '40 * * * *'
+  schedule:
+    - cron: "55 * * * *"
 
 jobs:
 
@@ -19,7 +19,13 @@ jobs:
       with:
         required-ros-distributions: melodic
 
-    - name: Build autoware repos
-      uses: ros-tooling/action-ros-ci@0.0.15
-      with:
-        vcs-repo-file-url: https://gitlab.com/autowarefoundation/autoware.ai/autoware/-/raw/master/autoware.ai.repos
+    - name: Build AutowareAI
+        run: |
+          source /opt/ros/melodic/setup.bash
+          mkdir -p autoware.ai/src
+          cd autoware.ai
+          wget -O autoware.ai.repos "https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/master/autoware.ai.repos?inline=false"
+          vcs import src < autoware.ai.repos
+          rosdep update
+          rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+          colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
