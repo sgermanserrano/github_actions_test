@@ -1,0 +1,26 @@
+name: Nightly Autoware build
+
+on:
+  schedule:
+    - push:
+      branches: master
+      
+    - cron: '40 * * * *'
+
+jobs:
+
+  build-autoware-repos:
+
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Setup ROS
+      uses: ros-tooling/setup-ros@0.0.18
+      with:
+        required-ros-distributions: melodic
+
+    - name: Build autoware repos
+      uses: ros-tooling/action-ros-ci@0.0.15
+      with:
+        package-name: *
+        vcs-repo-file-url: https://gitlab.com/autowarefoundation/autoware.ai/autoware/-/raw/master/autoware.ai.repos
