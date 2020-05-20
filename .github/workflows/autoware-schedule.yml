@@ -1,6 +1,8 @@
 name: Nightly Autoware build
 
 on:
+  push:
+    branches: master
   schedule:
     - cron: "55 * * * *"
 
