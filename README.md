@@ -1,7 +1,9 @@
 Test actions badges
 
-![Greet Everyone](https://github.com/sgermanserrano/github_actions_test/workflows/Greet%20Everyone/badge.svg)
+![ROS Pkg CI](https://github.com/sgermanserrano/github_actions_test/workflows/ROS%20Pkg%20CI/badge.svg)
 
-![ROS2 test](https://github.com/sgermanserrano/github_actions_test/workflows/ROS2%20test/badge.svg)
+![Autoware AI build](https://github.com/sgermanserrano/github_actions_test/workflows/Autoware%20AI%20build/badge.svg)
 
-![Test workflows](https://github.com/sgermanserrano/github_actions_test/workflows/Test%20workflows/badge.svg)
+![Autoware Auto build](https://github.com/sgermanserrano/github_actions_test/workflows/Autoware%20Auto%20build/badge.svg)
+
+![Scheduled Autoware Docker build](https://github.com/sgermanserrano/github_actions_test/workflows/Scheduled%20Autoware%20Docker%20build/badge.svg)

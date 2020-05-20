@@ -1,4 +1,4 @@
-name: Test workflows
+name: ROS Pkg CI
 
 on:
   pull_request:
@@ -53,13 +53,6 @@ jobs:
         lcov -a lcov.base -a lcov.test -o lcov.total
         lcov -r lcov.total '*/tests/*' '*/test/*' '*/build/*' '*/devel/*' '*/install/*' '*/log/*' '/usr/*' '/opt/*' '/tmp/*' '*/CMakeCCompilerId.c' '*/CMakeCXXCompilerId.cpp' -o lcov.total.filtered
         genhtml -p "$PWD" --legend --demangle-cpp lcov.total.filtered -o coverage_folder
-
-      #tar -czvf coverage.tar.gz coverage_folder
-
-
-      #uses: ros-tooling/action-ros-ci@0.0.16
-      #with:
-    #    package-name: demo_nodes_cpp2
 
     - name: Upload Logs
       uses: actions/upload-artifact@v1

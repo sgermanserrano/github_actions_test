@@ -1,10 +1,8 @@
-name: Nightly Autoware build
+name: Scheduled Autoware Docker build
 
 on:
-  push:
-    branches: master
   schedule:
-    - cron: "55 * * * *"
+    - cron: "* 1 * * *"
 
 jobs:
 
