@@ -19,6 +19,22 @@ jobs:
       with:
         required-ros-distributions: dashing melodic
 
+    - name: Check ROS
+      run: |
+          ls /opt/ros
+          source /opt/ros/dashing/setup.bash
+
+    - name: Install udpreplay
+      run: |
+        sudo apt-get install -y libpcap-dev
+        git clone https://github.com/rigtorp/udpreplay.git
+        cd udpreplay
+        mkdir build
+        cd build
+        cmake ..
+        sudo make install
+        cd ../.. && rm -r udpreplay
+
     - name: Install CycloneDDS
       run: sudo apt-get install -y ros-dashing-rmw-cyclonedds-cpp
 
@@ -28,4 +44,12 @@ jobs:
         cd AutowareAuto
         sudo apt-get update
         rosdep update && rosdep install -y --from-paths src --ignore-src --rosdistro dashing
+        ls /opt/ros
         source /opt/ros/dashing/setup.bash && colcon build
+
+    #- name: Upload Logs
+    #  uses: actions/upload-artifact@v1
+    #  with:
+    #    name: colcon-logs
+    #    path: ros_ws/log
+    #  if: always()
