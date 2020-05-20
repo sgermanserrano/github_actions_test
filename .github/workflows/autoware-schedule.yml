@@ -26,6 +26,7 @@ jobs:
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
         cd generic
         ./build.sh -c off -i $IMAGE_NAME -r $ROS_DISTRO -t $TAG_PREFIX -v $VERSION
+        docker tag $IMAGE_NAME:$VERSION-$ROS_DISTRO-base ${{ secrets.DKR_USR }}/$IMAGE_NAME:$VERSION-$ROS_DISTRO-base
         docker tag $IMAGE_NAME:$VERSION-$ROS_DISTRO ${{ secrets.DKR_USR }}/$IMAGE_NAME:$VERSION-$ROS_DISTRO
         docker push ${{ secrets.DKR_USR }}/$IMAGE_NAME:$TAG_PREFIX-$ROS_DISTRO-base
         docker push ${{ secrets.DKR_USR }}/$IMAGE_NAME:$TAG_PREFIX-$ROS_DISTRO
