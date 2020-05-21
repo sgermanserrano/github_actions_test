@@ -33,4 +33,4 @@ jobs:
     - name: Buildx
       run: |
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
-        docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/hello --build-arg ROS_DISTRO=melodic  . --push
+        docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/test_base --build-arg ROS_DISTRO=melodic  . --push
