@@ -36,4 +36,4 @@ jobs:
         cp dependencies generic/dependencies
         cd generic
         docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/test_base -f Dockerfile.base --build-arg ROS_DISTRO=melodic  . --push
-        docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/test_ai -f Dockerfile --build-arg ROS_DISTRO=melodic  . --push
+        docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/test_ai -f Dockerfile --build-arg FROM_ARG=${{ secrets.DKR_USR }}/test_base --build-arg ROS_DISTRO=melodic --build-arg VERSION=master . --push
