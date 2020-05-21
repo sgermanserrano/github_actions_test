@@ -27,3 +27,8 @@ jobs:
         docker buildx create --name mybuilder
         docker buildx use mybuilder
         docker buildx inspect --bootstrap
+
+    - name: Buildx
+      run: |
+        docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
+        docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/hello --build-arg ROS_DISTRO=melodic  . --push
