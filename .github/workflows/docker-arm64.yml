@@ -1,0 +1,18 @@
+name: Arm64 Docker build
+
+on:
+  push:
+    branches: test_branch
+
+jobs:
+
+  build-docker-image:
+
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Check Docker version
+      run: |
+        docker version
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker buildx --help
