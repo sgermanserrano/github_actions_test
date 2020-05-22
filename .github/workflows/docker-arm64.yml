@@ -6,21 +6,16 @@ on:
 
 jobs:
 
-  build-docker-image:
+  build-docker-image-base:
 
     runs-on: ubuntu-latest
     steps:
 
     - uses: actions/checkout@v2
 
-    - name: Check Docker version
-      run: |
-        docker version
-        export DOCKER_CLI_EXPERIMENTAL=enabled
-        docker buildx --help
-
     - name: Register arm executables
       run: |
+        export DOCKER_CLI_EXPERIMENTAL=enabled
         docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
         cat /proc/sys/fs/binfmt_misc/qemu-aarch64
 
@@ -36,4 +31,88 @@ jobs:
         cp dependencies generic/dependencies
         cd generic
         docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/test_base -f Dockerfile.base --build-arg ROS_DISTRO=melodic  . --push
+
+  build-docker-image:
+
+    needs: build-docker-image-base
+
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Register arm executables
+      run: |
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+        cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+
+    - name: Create multi-arch build instance
+      run: |
+        docker buildx create --name mybuilder
+        docker buildx use mybuilder
+        docker buildx inspect --bootstrap
+
+    - name: Buildx
+      run: |
+        docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
+        cp dependencies generic/dependencies
+        cd generic
         docker buildx build --platform linux/arm64,linux/amd64 -t ${{ secrets.DKR_USR }}/test_ai -f Dockerfile --build-arg FROM_ARG=${{ secrets.DKR_USR }}/test_base --build-arg ROS_DISTRO=melodic --build-arg VERSION=master . --push
+
+  build-docker-image-arm64:
+
+    needs: build-docker-image-base
+
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Register arm executables
+      run: |
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+        cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+
+    - name: Create multi-arch build instance
+      run: |
+        docker buildx create --name mybuilder
+        docker buildx use mybuilder
+        docker buildx inspect --bootstrap
+
+    - name: Buildx
+      run: |
+        docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
+        cp dependencies generic/dependencies
+        cd generic
+        docker buildx build --platform linux/arm64 -t ${{ secrets.DKR_USR }}/test_ai -f Dockerfile --build-arg FROM_ARG=${{ secrets.DKR_USR }}/test_base --build-arg ROS_DISTRO=melodic --build-arg VERSION=master . --push
+
+
+  build-docker-image-amd64:
+
+    needs: build-docker-image-base
+
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Register arm executables
+      run: |
+        export DOCKER_CLI_EXPERIMENTAL=enabled
+        docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+        cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+
+    - name: Create multi-arch build instance
+      run: |
+        docker buildx create --name mybuilder
+        docker buildx use mybuilder
+        docker buildx inspect --bootstrap
+
+    - name: Buildx
+      run: |
+        docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
+        cp dependencies generic/dependencies
+        cd generic
+        docker buildx build --platform linux/amd64 -t ${{ secrets.DKR_USR }}/test_ai -f Dockerfile --build-arg FROM_ARG=${{ secrets.DKR_USR }}/test_base --build-arg ROS_DISTRO=melodic --build-arg VERSION=master . --push
