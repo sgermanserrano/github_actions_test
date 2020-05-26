@@ -2,7 +2,7 @@ name: Arm64 Docker build
 
 on:
   push:
-    branches: test_branch
+    branches: master
 
 jobs:
 

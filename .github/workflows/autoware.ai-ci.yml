@@ -4,14 +4,14 @@ on:
   pull_request:
   push:
     branches:
-      - master
+      - test_branch
 
 jobs:
   build-and-test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, self-hosted]
       fail-fast: false
     steps:
     - name: Setup ROS
