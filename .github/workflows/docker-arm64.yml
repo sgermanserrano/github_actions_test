@@ -15,6 +15,7 @@ jobs:
 
     - name: Build and push amd64 base
       run: |
+        cd generic
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
         docker build -f Dockerfile_arch.base -t ${{ secrets.DKR_USR }}/test_multi:base_amd64 --build-arg ARCH=amd64 --build-arg ROS_DISTRO=melodic .
         docker push ${{ secrets.DKR_USR }}/test_multi:base_amd64
@@ -28,6 +29,7 @@ jobs:
 
     - name: Build and push arm64 base
       run: |
+        cd generic
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
         docker build -f Dockerfile_arch.base -t ${{ secrets.DKR_USR }}/test_multi:base_arm64v8 --build-arg ARCH=arm64v8 --build-arg ROS_DISTRO=melodic .
         docker push ${{ secrets.DKR_USR }}/test_multi:base_arm64v8
@@ -59,6 +61,7 @@ jobs:
 
     - name: Build and push amd64
       run: |
+        cd generic
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
         docker build -f Dockerfile_arch -t ${{ secrets.DKR_USR }}/test_multi:amd64 --build-arg FROM_ARG=${{ secrets.DKR_USR }}/test_multi:base_amd64 --build-arg ROS_DISTRO=melodic --build-arg VERSION=master .
         docker push ${{ secrets.DKR_USR }}/test_multi:amd64
@@ -74,6 +77,7 @@ jobs:
 
     - name: Build and push amd64
       run: |
+        cd generic
         docker login -u ${{ secrets.DKR_USR }} -p ${{ secrets.DKR_PASS }}
         docker build -f Dockerfile_arch -t ${{ secrets.DKR_USR }}/test_multi:arm64v8 --build-arg FROM_ARG=${{ secrets.DKR_USR }}/test_multi:base_arm64v8 --build-arg ROS_DISTRO=melodic --build-arg VERSION=master .
         docker push ${{ secrets.DKR_USR }}/test_multi:arm64v8
